@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Player</title>
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles/style.css">
+  <!-- Styles -->
+</head>
+<body>
+  
+  <div class="content">
+    <div class="audio-card">
+    
+      <div class="top-part">
+        
+      </div>
+      
+      <div class="bottom-part">
+        <div class="bottom-part-info">
+          <img src="img/play.png" alt="Start Button" class="bottom-part-info-start-btn">
+          <div class="bottom-part-info-text">
+            <h2 class="bottom-part-info-song-name">Beyonce</h2>
+            <p class="bottom-part-info-song-description">
+              Don't Hurt Yourself
+            </p>
+          </div>
+          <div class="bottom-part-info-arrows">
+            <img src="img/backward.png" alt="LeftArrow" class="bottom-part-info-arrow-left">
+            <img src="img/forward.png" alt="RightArrow" class="bottom-part-info-arrow-right">
+          </div>
+        </div>
+        <div class="bottom-part-slider">
+          <input type="range" id="slider" class="bottom-part-slider-input" min="0" max="10" value="0" onchange="newSliderPosition()" step="1">
+          <div class="input-text-current">0:00</div>
+          <div class="input-text-duration">3:53</div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <img src="img/lemonade.png" alt="backgroundImage" class="background-image">
+  </div>
+  
+  <img src="img/lemonade.png" alt="backgroundImage" class="background">
+  
+  <script src="scripts/app.js"></script>
+</body>
+</html>
