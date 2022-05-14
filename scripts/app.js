@@ -131,7 +131,6 @@ function changeCurrentText() {
     // currentPlayTime = "0:00";
     // startButton.src = `${playPhoto.second}`;
     // currentText.textContent = currentPlayTime;
-    // changeMusicText();
     // changeMusicDuration();
     currentText.textContent = "0:00";
     currentPlayTime = "0:00";
@@ -139,6 +138,7 @@ function changeCurrentText() {
     rangeSlider.value = "0";
     changeMusicDuration();
     sliderPosition[currentNumber].current = "0";
+    changeMusicText();
     playMusic();
   } else {
     changeCurrentTextUI();
