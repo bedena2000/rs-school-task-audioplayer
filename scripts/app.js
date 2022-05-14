@@ -15,6 +15,11 @@ let startButton =  document.querySelector(".bottom-part-info-start-btn");
 let leftArrow = document.querySelector(".bottom-part-info-arrow-left");
 let rightArrow = document.querySelector(".bottom-part-info-arrow-right");
 
+let songName = document.querySelector(".bottom-part-info-song-name");
+let songDescription = document.querySelector(".bottom-part-info-song-description");
+
+let songDuration = document.querySelector(".input-text-duration");
+
 let newMusic = new Audio();
 
 let currentText = document.querySelector(".input-text-current");
@@ -92,8 +97,8 @@ startButton.addEventListener("click", (event) => {
       changeCurrentText();
     }, 1000);
     playMusic();
-    startButton.src = `${playPhoto.second}`;    
     isPlay = !isPlay;
+    startButton.src = `${playPhoto.second}`;    
   }
 });
 
@@ -110,19 +115,35 @@ function playMusic() {
   } else if (currentNumber === "second") {
     newMusic.src = `${musicData.second}`;
     newMusic.play();
+    newMusic.addEventListener("loadedmetadata", (event) => {
+      let musicDuration = newMusic.duration;
+      let minutes = Math.floor(musicDuration / 60);
+      let seconds = Math.floor(musicDuration - minutes * 60);
+    });
+    newMusic.currentTime = sliderPosition[currentNumber].current;
   };
 }
 
 
 function changeCurrentText() {
   if(currentPlayTime === duration[currentNumber]) {
-    changeImages();
+    // changeImages();
+    // currentPlayTime = "0:00";
+    // startButton.src = `${playPhoto.second}`;
+    // currentText.textContent = currentPlayTime;
+    // changeMusicText();
+    // changeMusicDuration();
+    currentText.textContent = "0:00";
     currentPlayTime = "0:00";
+    changeImages();
+    rangeSlider.value = "0";
+    changeMusicDuration();
+    sliderPosition[currentNumber].current = "0";
     playMusic();
-    startButton.src = `${playPhoto.second}`;
+  } else {
+    changeCurrentTextUI();
   };
-  changeCurrentTextUI();
-}
+};
 
 
 function stopMusic() {
@@ -131,7 +152,9 @@ function stopMusic() {
 
 function changeCurrentTextUI() {
   let currentTime = rangeSlider.value;
+  console.log(currentTime);
   let result = convertNumbersToTimeFormat(currentTime);
+  console.log(result);
   currentPlayTime = result;
   currentText.textContent = result;
 }
@@ -139,21 +162,6 @@ function changeCurrentTextUI() {
 function convertNumbersToTimeFormat(time) {
   return `${Math.trunc(time/60)}:${String(time%60).padStart(2, 0)}`;
 };
-
-// function session () {
- 
-
-//   labelTimer.textContent = ${`${Math.trunc(timer/60)}.padStart(2,0)}
-//   :${`${timer%60}`.padStart(2,0)}`;
-//   if(timer<=0){
-//     clearInterval(interval);
-
-//   }
-//   timer -= 1;
- 
-// }
-// session();
-// let interval = setInterval(session, 1000);
 
 leftArrow.addEventListener("click", (event) => {
   changeImages();
@@ -163,6 +171,8 @@ leftArrow.addEventListener("click", (event) => {
   rangeSlider.value = "0";
   sliderPosition[currentNumber].current = "0";
   sliderChange();
+  changeMusicText();
+  changeMusicDuration();
 });
 
 rightArrow.addEventListener("click", (event) => {
@@ -173,6 +183,8 @@ rightArrow.addEventListener("click", (event) => {
   rangeSlider.value = "0";
   sliderPosition[currentNumber].current = "0";
   sliderChange();
+  changeMusicText();
+  changeMusicDuration();
 });
 
 contentElement.addEventListener("mouseover", (event) => {
@@ -194,8 +206,26 @@ function sliderChange() {
     rangeSlider.max = sliderPosition.second.max;
     sliderPosition.second.current = String(+sliderPosition.second.current + +sliderPosition.second.add);
     rangeSlider.value = sliderPosition.second.current; 
-  }
-}
+  };
+};
+
+function changeMusicText() {
+  if(currentNumber === "first") {
+    songName.textContent = musicText[currentNumber].title;
+    songDescription.textContent = musicText[currentNumber].descr;
+  } else if (currentNumber === "second") {
+    songName.textContent = musicText[currentNumber].title;
+    songDescription.textContent = musicText[currentNumber].descr;
+  };
+};
+
+function changeMusicDuration() {
+  if(currentNumber === "first") {
+    songDuration.textContent = duration[currentNumber];
+  } else if (currentNumber === "second") {
+    songDuration.textContent = duration[currentNumber];    
+  };
+};
 
 backgroundImage.animate([
   {
@@ -228,8 +258,8 @@ function changeImages() {
     backgroundImage.src = `${photo.first}`;
     background.src = `${photo.first}`;
     currentNumber = "first";
-  }
-}
+  };
+};
 
 function convertStringToTime(time) {
   let splitted = time.split("");
@@ -248,17 +278,22 @@ function convertStringToTime(time) {
         return `${1}:0${convertedNumber % 60}`;
       } else {
         return `${1}:${convertedNumber % 60}`;
-      }
-    }
+      };
+    };
   } else if (String(convertedNumber).length === 3) {
     let lastTwo = number.split("")[1] + number.split("")[2];
     if(lastTwo >= 60) {
       return `${number.split("")[0] + 1}:${lastTwo % 60}`;
-    }
-  }
-}
+    };
+  };
+};
 
 function newSliderPosition() {
   let rangePosition = rangeSlider.value;
-  
-}
+  console.log(rangePosition);
+  let result = convertNumbersToTimeFormat(rangePosition);
+  console.log(result);
+  currentPlayTime = result;
+  sliderPosition[currentNumber].current = rangePosition;
+  newMusic.currentTime = sliderPosition[currentNumber].current;
+};
